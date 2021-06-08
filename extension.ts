@@ -24,9 +24,10 @@ const neutrinoFormatExtension = {
             const { width: mapWidth, height: mapHeight } = layer
             const tilemap = Array(mapWidth * mapHeight).fill(0).map((_, i) => i)
             tilemap.forEach(i => {
-                const row = i % mapWidth
-                const column = Math.floor(i / mapWidth)
+                const column = i % mapWidth
+                const row = Math.floor(i / mapWidth)
                 const { tileId } = layer.cellAt(column, row) // destructuring tileId property of the cell
+                if (tileId === 1) { console.log("wall") }
                 if (tileId === -1) { return } // in case of empty tile
                 const { imageFileName, height: tileImageHeight, properties } = tiles[tileId] 
                 const { name: tileName }= properties()
@@ -34,7 +35,7 @@ const neutrinoFormatExtension = {
                 const tile = {
                     x: column * tileHeight, 
                     y: (row + 1) * tileWidth - tileImageHeight, // computing the correct y value by taking offsets into account (changing it from y-coordinates of the tile at bottom-left corner of tileImage to the y-coordinates of top left-corner of the image) 
-                    tileName: tileName || altTileName
+                    name: tileName || altTileName
                 }
                 customMap.tiles.push(tile)
             })
