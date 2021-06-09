@@ -4,11 +4,13 @@ const neutrinoFormatExtension = {
     name: "Neutrino",
     extension: "cson",
     write(map, fileName) {
+        const { tileWidth, tileHeight } = map
         const customMap = {
+            width: map.width * tileWidth,
+            height: map.height * tileHeight,
             collisionRects: [],
             tiles: []
         }
-        const { tileWidth, tileHeight } = map
         const tiles = map.tilesets[0].tiles
         const layers = Array(map.layerCount).fill(0).map((_, i) => i)
         layers.forEach(layerIndex => {
