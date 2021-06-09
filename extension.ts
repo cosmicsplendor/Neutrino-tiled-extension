@@ -2,7 +2,7 @@ import "@mapeditor/tiled-api"
 
 const neutrinoFormatExtension = {
     name: "Neutrino",
-    extension: "json",
+    extension: "cson",
     write(map, fileName) {
         const customMap = {
             collisionRects: [],
@@ -33,14 +33,14 @@ const neutrinoFormatExtension = {
                 const { name: tileName }= properties()
                 const altTileName = imageFileName.replace(/^.+\//g, "").replace(/\..+$/, "") // just filename without extension
                 const tile = {
-                    x: column * tileHeight, 
-                    y: (row + 1) * tileWidth - tileImageHeight, // computing the correct y value by taking offsets into account (changing it from y-coordinates of the tile at bottom-left corner of tileImage to the y-coordinates of top left-corner of the image) 
+                    x: column * tileWidth, 
+                    y: (row + 1) * tileHeight - tileImageHeight, // computing the correct y value by taking offsets into account (changing it from y-coordinates of the tile at bottom-left corner of tileImage to the y-coordinates of top left-corner of the image) 
                     name: tileName || altTileName
                 }
                 customMap.tiles.push(tile)
             })
         })
-        const outputFilename = fileName.replace(/\..+$/, ".json") // making sure the output file extension is json
+        const outputFilename = fileName.replace(/\..+$/, ".cson") // making sure the output file extension is cson
         const fileContent = JSON.stringify(customMap, null, 3)
         const file = new TextFile(outputFilename, TextFile.WriteOnly)
         file.write(fileContent)
