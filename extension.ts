@@ -27,7 +27,6 @@ const neutrinoFormatExtension = {
                 const column = i % mapWidth
                 const row = Math.floor(i / mapWidth)
                 const { tileId } = layer.cellAt(column, row) // destructuring tileId property of the cell
-                if (tileId === 1) { console.log("wall") }
                 if (tileId === -1) { return } // in case of empty tile
                 const { imageFileName, height: tileImageHeight, properties } = tiles[tileId] 
                 const { name: tileName }= properties()
