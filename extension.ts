@@ -9,17 +9,28 @@ const neutrinoFormatExtension = {
             width: map.width * tileWidth,
             height: map.height * tileHeight,
             collisionRects: [],
+            spawnPoints: [],
             tiles: []
         }
         const tiles = map.tilesets[0].tiles
         const layers = Array(map.layerCount).fill(0).map((_, i) => i)
         layers.forEach(layerIndex => {
             const layer = map.layerAt(layerIndex)
-            if (layer.isObjectLayer) { // collision layer
-                layer.objects.forEach(obj => {
-                    const { x, y , width, height } = obj
-                    customMap.collisionRects.push({ x, y, width, height })
-                })
+            if (layer.isObjectLayer) {
+                switch(layer.name) {
+                    case "collision":  // collision layer
+                        layer.objects.forEach(obj => {
+                            const { x, y , width, height } = obj
+                            customMap.collisionRects.push({ x, y, width, height })
+                        })
+                    break
+                    case "spawn-points": // spawn points layer
+                        layer.objects.forEach(({ name, x, y }) => {
+                            if (!name) { throw new Error("Anonymous spawn-point")}
+                            customMap.spawnPoints.push({ name, x, y })
+                        })
+                    break
+                }
                 return
             }
             // map layer
