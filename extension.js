@@ -10,7 +10,9 @@ const neutrinoFormatExtension = {
             spawnPoints: [],
             markerPoints: [],
             tiles: [],
-            fgTiles: []
+            fgTiles: [],
+            bgTiles: [], // bg tiles
+            fbgTiles: [] // far bg tiles
         }
         const tiles = map.tilesets[0].tiles
         const layers = Array(map.layerCount).fill(0).map((_, i) => i)
@@ -39,7 +41,10 @@ const neutrinoFormatExtension = {
             // map layer
             const { width: mapWidth, height: mapHeight } = layer
             const tilemap = Array(mapWidth * mapHeight).fill(0).map((_, i) => i)
-            const tilesArray = (layer.name === "foreground" && customMap.fgTiles) || customMap.tiles
+            const tilesArray = (layer.name === "foreground" && customMap.fgTiles) || 
+                                (layer.name === "background" && customMap.bgTiles) ||    
+                                (layer.name === "far-background" && customMap.fbgTiles) ||    
+                                customMap.tiles
             tilemap.forEach(i => {
                 const column = i % mapWidth
                 const row = Math.floor(i / mapWidth)
