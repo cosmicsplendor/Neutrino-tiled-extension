@@ -16,7 +16,11 @@ const neutrinoFormatExtension = {
             bgTiles: [], // bg tiles
             fbgTiles: [] // far bg tiles
         }
-        const tiles = map.tilesets[0].tiles
+        // const tiles = map.tilesets[0].tiles
+        const tilesByTileset = map.tilesets.reduce((acc, cur) => {
+            acc[cur.name] = cur.tiles
+            return acc
+        }, {})
         const layers = Array(map.layerCount).fill(0).map((_, i) => i)
         layers.forEach(layerIndex => {
             const layer = map.layerAt(layerIndex)
@@ -52,7 +56,8 @@ const neutrinoFormatExtension = {
                 const row = Math.floor(i / mapWidth)
                 const { tileId } = layer.cellAt(column, row) // destructuring tileId property of the cell
                 if (tileId === -1) { return } // in case of empty tile
-                const { imageFileName, height: tileImageHeight, properties } = tiles[tileId] 
+                const tilesetName = layer.tileAt(column, row).tileset.name
+                const { imageFileName, height: tileImageHeight, properties } = tilesByTileset[tilesetName][tileId] 
                 const { name: tileName }= properties()
                 const altTileName = imageFileName.replace(/^.+\//g, "").replace(/\..+$/, "") // just filename without extension
                 const tile = {
