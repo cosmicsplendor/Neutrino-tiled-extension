@@ -1,3 +1,5 @@
+import "@mapeditor/tiled-api"
+
 const neutrinoFormatExtension = {
     name: "Neutrino",
     extension: "cson",
@@ -55,15 +57,17 @@ const neutrinoFormatExtension = {
                 const { tileId } = layer.cellAt(column, row) // destructuring tileId property of the cell
                 if (tileId === -1) { return } // in case of empty tile
                 const tilesetName = layer.tileAt(column, row).tileset.name
-                const { imageFileName, height: tileImageHeight, properties } = tilesByTileset[tilesetName][tileId] 
+                const tile = tilesByTileset[tilesetName][tileId]
+                if (!tile) { return }
+                const { imageFileName, height: tileImageHeight, properties } = tile
                 const { name: tileName }= properties()
                 const altTileName = imageFileName.replace(/^.+\//g, "").replace(/\..+$/, "") // just filename without extension
-                const tile = {
+                
+                tilesArray.push({
                     x: column * tileWidth, 
                     y: (row + 1) * tileHeight - tileImageHeight, // computing the correct y value by taking offsets into account (changing it from y-coordinates of the tile at bottom-left corner of tileImage to the y-coordinates of top left-corner of the image) 
                     name: tileName || altTileName
-                }
-                tilesArray.push(tile)
+                })
             })
         })
         const outputFilename = fileName.replace(/\..+$/, ".cson") // making sure the output file extension is cson
@@ -74,5 +78,3 @@ const neutrinoFormatExtension = {
         return undefined
     }
 }
-
-tiled.registerMapFormat("Neutrino", neutrinoFormatExtension)
