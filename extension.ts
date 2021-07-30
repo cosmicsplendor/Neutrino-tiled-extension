@@ -60,15 +60,15 @@ const neutrinoFormatExtension = {
                 const tile = tilesByTileset[tilesetName][tileId]
                 if (!tile) { return }
                 const { imageFileName, height: tileImageHeight, properties } = tile
-                const { name: tileName, ...rest }= properties()
+                // const { name: tileName, ...rest } = properties() // would've done this but (object rest operator) isn't supported by tiled
+                const props = properties()
                 const altTileName = imageFileName.replace(/^.+\//g, "").replace(/\..+$/, "") // just filename without extension
+                props.name = props.name || altTileName
                 
-                tilesArray.push({
+                tilesArray.push(Object.assign({
                     x: column * tileWidth, 
                     y: (row + 1) * tileHeight - tileImageHeight, // computing the correct y value by taking offsets into account (changing it from y-coordinates of the tile at bottom-left corner of tileImage to the y-coordinates of top left-corner of the image) 
-                    name: tileName || altTileName,
-                    ...rest
-                })
+                }, props))
             })
         })
         const outputFilename = fileName.replace(/\..+$/, ".cson") // making sure the output file extension is cson
