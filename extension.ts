@@ -60,13 +60,14 @@ const neutrinoFormatExtension = {
                 const tile = tilesByTileset[tilesetName][tileId]
                 if (!tile) { return }
                 const { imageFileName, height: tileImageHeight, properties } = tile
-                const { name: tileName }= properties()
+                const { name: tileName, ...rest }= properties()
                 const altTileName = imageFileName.replace(/^.+\//g, "").replace(/\..+$/, "") // just filename without extension
                 
                 tilesArray.push({
                     x: column * tileWidth, 
                     y: (row + 1) * tileHeight - tileImageHeight, // computing the correct y value by taking offsets into account (changing it from y-coordinates of the tile at bottom-left corner of tileImage to the y-coordinates of top left-corner of the image) 
-                    name: tileName || altTileName
+                    name: tileName || altTileName,
+                    ...rest
                 })
             })
         })
