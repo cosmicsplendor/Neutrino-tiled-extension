@@ -26,8 +26,11 @@ const neutrinoFormatExtension = {
                 switch(layer.name) {
                     case "collision":  // collision layer
                         layer.objects.forEach(obj => {
-                            const { x, y , width, height } = obj
-                            customMap.collisionRects.push({ x: Math.round(x), y: Math.round(y), width: Math.round(width), height: Math.round(height) })
+                            const { x, y , width, height, properties } = obj
+                            customMap.collisionRects.push(Object.assign(
+                                { x: Math.round(x), y: Math.round(y), width: Math.round(width), height: Math.round(height) },
+                                properties()
+                            ))
                         })
                     break
                     case "spawn-points": // spawn points layer
