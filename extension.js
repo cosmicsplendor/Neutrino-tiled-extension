@@ -34,9 +34,12 @@ const neutrinoFormatExtension = {
                         })
                     break
                     case "spawn-points": // spawn points layer
-                        layer.objects.forEach(({ name, x, y }) => {
+                        layer.objects.forEach(({ name, x, y, properties }) => {
                             if (!name) { throw new Error("Anonymous spawn-point")}
-                            customMap.spawnPoints.push({ name, x: Math.round(x), y: Math.round(y) })
+                            customMap.spawnPoints.push(Object.assign(
+                                { name, x: Math.round(x), y: Math.round(y) },
+                                properties()
+                            ))
                         })
                     break
                     case "marker-points":
