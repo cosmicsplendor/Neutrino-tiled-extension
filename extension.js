@@ -9,8 +9,9 @@ const neutrinoFormatExtension = {
             collisionRects: [],
             spawnPoints: [],
             markerPoints: [],
-            tiles: [],
-            fgTiles: [],
+            fgTiles: [], // foreground tiles
+            tiles: [], // world tiles
+            mgTiles: [], // midground tiles
             bgTiles: [], // bg tiles
             fbgTiles: [] // far bg tiles
         }
@@ -52,6 +53,7 @@ const neutrinoFormatExtension = {
             const { width: mapWidth, height: mapHeight } = layer
             const tilemap = Array(mapWidth * mapHeight).fill(0).map((_, i) => i)
             const tilesArray = (layer.name === "foreground" && customMap.fgTiles) || 
+                                (layer.name === "midground" && customMap.mgTiles) ||
                                 (layer.name === "background" && customMap.bgTiles) ||    
                                 (layer.name === "far-background" && customMap.fbgTiles) ||    
                                 customMap.tiles
