@@ -80,7 +80,7 @@ const neutrinoFormatExtension = {
             })
         })
         const outputFilename = fileName.replace(/\..+$/, ".cson") // making sure the output file extension is cson
-        const fileContent = JSON.stringify(customMap, null, 3)
+        const fileContent = JSON.stringify(customMap)
         const file = new TextFile(outputFilename, TextFile.WriteOnly)
         file.write(fileContent)
         file.commit()
