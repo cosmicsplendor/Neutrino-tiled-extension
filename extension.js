@@ -56,7 +56,8 @@ const neutrinoFormatExtension = {
                                 (layer.name === "midground" && customMap.mgTiles) ||
                                 (layer.name === "background" && customMap.bgTiles) ||    
                                 (layer.name === "far-background" && customMap.fbgTiles) ||    
-                                customMap.tiles
+                                (layer.name === "world" && customMap.tiles)
+            if (!tilesArray) { return }                                
             tilemap.forEach(i => {
                 const column = i % mapWidth
                 const row = Math.floor(i / mapWidth)
