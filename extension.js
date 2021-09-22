@@ -14,6 +14,7 @@ const neutrinoFormatExtension = {
             bgTiles: [], // bg tiles
             fbgTiles: [] // far bg tiles
         }
+        Object.assign(customMap, map.properties())
         // const tiles = map.tilesets[0].tiles
         const tilesByTileset = map.tilesets.reduce((acc, cur) => {
             acc[cur.name] = cur.tiles

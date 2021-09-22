@@ -10,13 +10,13 @@ const neutrinoFormatExtension = {
             height: map.height * tileHeight,
             collisionRects: [],
             spawnPoints: [],
-            markerPoints: [],
             fgTiles: [], // foreground tiles
             tiles: [], // world tiles
             mgTiles: [], // midground tiles
             bgTiles: [], // bg tiles
             fbgTiles: [] // far bg tiles
         }
+        Object.assign(customMap, map.properties())
         // const tiles = map.tilesets[0].tiles
         const tilesByTileset = map.tilesets.reduce((acc, cur) => {
             acc[cur.name] = cur.tiles
@@ -80,6 +80,12 @@ const neutrinoFormatExtension = {
                 }, props))
             })
         })
+        if (!customMap.bgTiles.length) {
+            delete customMap.bgTiles
+        }
+        if (!customMap.fbgTiles.length) {
+            delete customMap.fbgTiles
+        }
         const outputFilename = fileName.replace(/\..+$/, ".cson") // making sure the output file extension is cson
         const fileContent = JSON.stringify(customMap)
         const file = new TextFile(outputFilename, TextFile.WriteOnly)
