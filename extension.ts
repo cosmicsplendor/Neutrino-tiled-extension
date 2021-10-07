@@ -14,7 +14,8 @@ const neutrinoFormatExtension = {
             tiles: [], // world tiles
             mgTiles: [], // midground tiles
             bgTiles: [], // bg tiles
-            fbgTiles: [] // far bg tiles
+            fbgTiles: [], // far bg tiles
+            checkpoints: []
         }
         Object.assign(customMap, map.properties())
         // const tiles = map.tilesets[0].tiles
@@ -45,8 +46,10 @@ const neutrinoFormatExtension = {
                             ))
                         })
                     break
-                    case "marker-points":
-                        // marker points
+                    case "checkpoints":
+                        layer.objects.forEach(({ x, y }) => {
+                            customMap.checkpoints.push({ x, y })
+                        })
                     break
                 }
                 return
