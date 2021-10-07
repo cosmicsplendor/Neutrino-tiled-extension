@@ -48,7 +48,10 @@ const neutrinoFormatExtension = {
                     break
                     case "checkpoints":
                         layer.objects.forEach(({ x, y }) => {
-                            customMap.checkpoints.push({ x, y })
+                            customMap.checkpoints.push({
+                                x: Math.round(x),
+                                y: Math.round(y)
+                            })
                         })
                     break
                 }
